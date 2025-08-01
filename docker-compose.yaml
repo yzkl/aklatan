@@ -10,11 +10,13 @@ services:
       - ./src:/app/src
   tests:
     container_name: tests
-    restart: always
     build:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
-    command: ["pytest"]
+    command: >
+      sh -c "while true; do
+        find /app/tests /app/src -type f -name '*.py' | entr -n -d pytest;
+      done"

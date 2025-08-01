@@ -23,5 +23,5 @@ async def test_read_root(async_client: AsyncClient) -> None:
     assert "server is running" in response.text
 
 
-def test_something() -> None:
-    assert 1 == 1
+# def test_something() -> None:
+#     assert 1 == 1

@@ -1,0 +1,20 @@
+services:
+  web:
+    container_name: aklatan-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4001:8080"
+    volumes:
+      - ./src:/app/src
+  tests:
+    container_name: tests
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+    command: ["pytest"]

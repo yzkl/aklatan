@@ -1,6 +1,9 @@
-def main():
-    print("Hello from aklatan!")
+from fastapi import FastAPI, Response
 
 
-if __name__ == "__main__":
-    main()
+app = FastAPI()
+
+
+@app.get("/")
+def read_root() -> Response:
+    return Response("The server is running.")

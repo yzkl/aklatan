@@ -5,8 +5,7 @@
         "reportMissingImports": "none"
     },
     "python.analysis.extraPaths": [
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/.venv/Lib/site-packages"
+        "${workspaceFolder}/src"
     ],
     "python.envFile": "${workspaceFolder}/.env",
     "python.terminal.activateEnvironment": true,

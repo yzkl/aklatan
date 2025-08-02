@@ -1,4 +1,13 @@
 services:
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - aklatan-network
   web:
     container_name: aklatan-app
     build:
@@ -6,6 +15,14 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "4001:8080"
+    environment:
+      DB_HOST: db
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - aklatan-network
     volumes:
       - ./src:/app/src
   tests:
@@ -13,6 +30,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    env_file:
+      - .env
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
@@ -20,3 +39,6 @@ services:
       sh -c "while true; do
         find /app/tests /app/src -type f -name '*.py' | entr -n -d pytest;
       done"
+
+networks:
+  aklatan-network:

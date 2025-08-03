@@ -36,9 +36,11 @@ services:
       - ./src:/app/src
       - ./tests:/app/tests
     command: >
-      sh -c "while true; do
-        inotifywait -r -e modify -e create -e delete /app/src /app/tests;
-      done"
+      sh -c "pytest;
+        while true; do
+          inotifywait -r -e modify,create,delete --include '\.py$' /app/src /app/tests;
+          pytest;
+        done"
 
 volumes:
   data:

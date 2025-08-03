@@ -9,7 +9,7 @@ from crud import recommenders
 from database.session import get_db_session
 from schemas import Recommender, RecommenderCreate, RecommenderUpdate
 
-router = APIRouter(prefix="/recommender")
+router = APIRouter(prefix="/recommenders")
 
 
 @router.post("/", response_model=Recommender)

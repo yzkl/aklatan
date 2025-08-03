@@ -9,7 +9,7 @@ from crud import authors
 from database.session import get_db_session
 from schemas import Author, AuthorCreate, AuthorUpdate
 
-router = APIRouter(prefix="/author")
+router = APIRouter(prefix="/authors")
 
 
 @router.post("/", response_model=Author)

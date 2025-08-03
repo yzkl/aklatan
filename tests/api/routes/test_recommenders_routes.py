@@ -3,7 +3,7 @@ from httpx import AsyncClient
 
 from exceptions.exceptions import EntityAlreadyExistsError, EntityDoesNotExistError
 
-URL_PREFIX = "/recommender/"
+URL_PREFIX = "/recommenders/"
 
 
 @pytest.mark.asyncio

@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from exceptions.exceptions import EntityDoesNotExistError
 from models import Book
 
-URL_PREFIX = "/book/"
+URL_PREFIX = "/books/"
 
 TEST_PAYLOAD = {
     "author_id": 1,

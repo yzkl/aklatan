@@ -26,7 +26,7 @@ async def test_read_root_returns_http_200(async_client: AsyncClient) -> None:
 @pytest.mark.asyncio
 async def test_create_author_returns_http_200(async_client: AsyncClient) -> None:
     payload = {"name": "test-author"}
-    response = await async_client.post(URL_PREFIX + "author/", json=payload)
+    response = await async_client.post(URL_PREFIX + "authors/", json=payload)
 
     assert response.status_code == 200
     assert response.json()["name"] == payload["name"]
@@ -36,7 +36,7 @@ async def test_create_author_returns_http_200(async_client: AsyncClient) -> None
 async def test_read_author_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "author/1")
+    response = await async_client.get(URL_PREFIX + "authors/1")
 
     assert response.status_code == 200
     assert response.json()["name"] == testing_data["author1"]
@@ -46,7 +46,7 @@ async def test_read_author_returns_http_200(
 async def test_read_authors_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "author/")
+    response = await async_client.get(URL_PREFIX + "authors/")
 
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -60,7 +60,7 @@ async def test_update_author_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": "test-author"}
-    response = await async_client.put(URL_PREFIX + "author/1", json=payload)
+    response = await async_client.put(URL_PREFIX + "authors/1", json=payload)
 
     assert response.status_code == 200
     assert response.json()["name"] != testing_data["author1"]
@@ -71,7 +71,7 @@ async def test_update_author_returns_http_200(
 async def test_delete_author_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.delete(URL_PREFIX + "author/2")
+    response = await async_client.delete(URL_PREFIX + "authors/2")
 
     assert response.status_code == 200
     assert response.json()["name"] == testing_data["author2"]
@@ -80,7 +80,7 @@ async def test_delete_author_returns_http_200(
 @pytest.mark.asyncio
 async def test_create_recommender_returns_http_200(async_client: AsyncClient) -> None:
     payload = {"name": "test-recommender"}
-    response = await async_client.post(URL_PREFIX + "author/", json=payload)
+    response = await async_client.post(URL_PREFIX + "authors/", json=payload)
 
     assert response.status_code == 200
     assert response.json()["name"] == payload["name"]
@@ -90,7 +90,7 @@ async def test_create_recommender_returns_http_200(async_client: AsyncClient) ->
 async def test_read_recommender_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "recommender/1")
+    response = await async_client.get(URL_PREFIX + "recommenders/1")
 
     assert response.status_code == 200
     assert response.json()["name"] == testing_data["recommender1"]
@@ -100,7 +100,7 @@ async def test_read_recommender_returns_http_200(
 async def test_read_recommenders_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "recommender/")
+    response = await async_client.get(URL_PREFIX + "recommenders/")
 
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -114,7 +114,7 @@ async def test_update_recommender_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": "test-recommender"}
-    response = await async_client.put(URL_PREFIX + "recommender/1", json=payload)
+    response = await async_client.put(URL_PREFIX + "recommenders/1", json=payload)
 
     assert response.status_code == 200
     assert response.json()["name"] != testing_data["recommender1"]
@@ -125,7 +125,7 @@ async def test_update_recommender_returns_http_200(
 async def test_delete_recommender_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.delete(URL_PREFIX + "recommender/2")
+    response = await async_client.delete(URL_PREFIX + "recommenders/2")
 
     assert response.status_code == 200
     assert response.json()["name"] == testing_data["recommender2"]
@@ -140,7 +140,7 @@ async def test_create_book_returns_http_200(async_client: AsyncClient) -> None:
         "year_published": 2025,
         "is_purchased": True,
     }
-    response = await async_client.post(URL_PREFIX + "book/", json=payload)
+    response = await async_client.post(URL_PREFIX + "books/", json=payload)
 
     assert response.status_code == 200
     for key in payload:
@@ -152,7 +152,7 @@ async def test_create_book_returns_http_200(async_client: AsyncClient) -> None:
 async def test_read_book_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "book/1")
+    response = await async_client.get(URL_PREFIX + "books/1")
 
     assert response.status_code == 200
     for key in testing_data["book1"]:
@@ -163,7 +163,7 @@ async def test_read_book_returns_http_200(
 async def test_read_books_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "book/")
+    response = await async_client.get(URL_PREFIX + "books/")
 
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -185,7 +185,7 @@ async def test_update_book_returns_http_200(
     payload["title"] = "test-title"
     payload["year_published"] = 2025
     payload["is_purchased"] = False
-    response = await async_client.put(URL_PREFIX + "book/1", json=payload)
+    response = await async_client.put(URL_PREFIX + "books/1", json=payload)
 
     assert response.status_code == 200
     for key in payload:
@@ -196,7 +196,7 @@ async def test_update_book_returns_http_200(
 async def test_delete_book_returns_http_200(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
-    response = await async_client.delete(URL_PREFIX + "book/2")
+    response = await async_client.delete(URL_PREFIX + "books/2")
 
     assert response.status_code == 200
     for key in testing_data["book2"]:
@@ -322,7 +322,7 @@ async def test_main_returns_http_401_for_invalid_token(
     ) as client:
         invalid_token = "not-a-token"
         response = await client.get(
-            URL_PREFIX + "author/1",
+            URL_PREFIX + "authors/1",
             headers={"Authorization": f"Bearer {invalid_token}"},
         )
 
@@ -350,7 +350,7 @@ async def test_main_returns_http_401_for_expired_token(
             now_fn=lambda: datetime(2025, 1, 1),
         )
         response = await client.get(
-            URL_PREFIX + "author/1",
+            URL_PREFIX + "authors/1",
             headers={"Authorization": f"Bearer {expired_token}"},
         )
 
@@ -374,7 +374,7 @@ async def test_main_returns_http_401_for_missing_sub_claim(
     ) as client:
         missing_sub = create_access_token({"obj": "no-sub"})
         response = await client.get(
-            URL_PREFIX + "author/1",
+            URL_PREFIX + "authors/1",
             headers={"Authorization": f"Bearer {missing_sub}"},
         )
 
@@ -400,7 +400,7 @@ async def test_main_returns_http_403_for_deactivated_user(
             {"sub": testing_data["deactivated_user"]["username"]}
         )
         response = await client.get(
-            URL_PREFIX + "author/1",
+            URL_PREFIX + "authors/1",
             headers={"Authorization": f"Bearer {deactivated_user_token}"},
         )
 
@@ -412,7 +412,7 @@ async def test_main_returns_http_403_for_deactivated_user(
 async def test_read_author_returns_http_404_for_nonexistent_author_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "author/1000")
+    response = await async_client.get(URL_PREFIX + "authors/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -423,7 +423,7 @@ async def test_update_author_returns_http_404_for_nonexistent_author_id(
     async_client: AsyncClient,
 ) -> None:
     payload = {"name": "new-name"}
-    response = await async_client.put(URL_PREFIX + "author/1000", json=payload)
+    response = await async_client.put(URL_PREFIX + "authors/1000", json=payload)
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -433,7 +433,7 @@ async def test_update_author_returns_http_404_for_nonexistent_author_id(
 async def test_delete_author_returns_http_404_for_nonexistent_author_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "author/1000")
+    response = await async_client.get(URL_PREFIX + "authors/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -443,7 +443,7 @@ async def test_delete_author_returns_http_404_for_nonexistent_author_id(
 async def test_read_recommender_returns_http_404_for_nonexistent_recommender_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "recommender/1000")
+    response = await async_client.get(URL_PREFIX + "recommenders/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -454,7 +454,7 @@ async def test_update_recommender_returns_http_404_for_nonexistent_recommender_i
     async_client: AsyncClient,
 ) -> None:
     payload = {"name": "new-name"}
-    response = await async_client.put(URL_PREFIX + "recommender/1000", json=payload)
+    response = await async_client.put(URL_PREFIX + "recommenders/1000", json=payload)
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -464,7 +464,7 @@ async def test_update_recommender_returns_http_404_for_nonexistent_recommender_i
 async def test_delete_recommender_returns_http_404_for_nonexistent_recommender_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "recommender/1000")
+    response = await async_client.get(URL_PREFIX + "recommenders/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -474,7 +474,7 @@ async def test_delete_recommender_returns_http_404_for_nonexistent_recommender_i
 async def test_read_book_returns_http_404_for_nonexistent_book_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "book/1000")
+    response = await async_client.get(URL_PREFIX + "books/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -485,7 +485,7 @@ async def test_update_book_returns_http_404_for_nonexistent_book_id(
     async_client: AsyncClient,
 ) -> None:
     payload = {"title": "new-name"}
-    response = await async_client.put(URL_PREFIX + "book/1000", json=payload)
+    response = await async_client.put(URL_PREFIX + "books/1000", json=payload)
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -496,7 +496,7 @@ async def test_update_book_returns_http_404_for_nonexistent_author_id(
     async_client: AsyncClient,
 ) -> None:
     payload = {"author_id": 1000}
-    response = await async_client.put(URL_PREFIX + "book/1", json=payload)
+    response = await async_client.put(URL_PREFIX + "books/1", json=payload)
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -507,7 +507,7 @@ async def test_update_book_returns_http_404_for_nonexistent_recommender_id(
     async_client: AsyncClient,
 ) -> None:
     payload = {"recommender_id": 1000}
-    response = await async_client.put(URL_PREFIX + "book/1", json=payload)
+    response = await async_client.put(URL_PREFIX + "books/1", json=payload)
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -517,7 +517,7 @@ async def test_update_book_returns_http_404_for_nonexistent_recommender_id(
 async def test_delete_book_returns_http_404_for_nonexistent_book_id(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.get(URL_PREFIX + "author/1000")
+    response = await async_client.get(URL_PREFIX + "authors/1000")
 
     assert response.status_code == 404
     assert "does not exist" in response.text
@@ -528,7 +528,7 @@ async def test_create_author_returns_http_409_for_duplicate_author(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": testing_data["author1"]}
-    response = await async_client.post(URL_PREFIX + "author/", json=payload)
+    response = await async_client.post(URL_PREFIX + "authors/", json=payload)
 
     assert response.status_code == 409
     assert "already exists" in response.text
@@ -539,7 +539,7 @@ async def test_update_author_returns_http_409_for_duplicate_author(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": testing_data["author1"]}
-    response = await async_client.put(URL_PREFIX + "author/2", json=payload)
+    response = await async_client.put(URL_PREFIX + "authors/2", json=payload)
 
     assert response.status_code == 409
     assert "already exists" in response.text
@@ -550,7 +550,7 @@ async def test_create_recommender_returns_http_409_for_duplicate_recommender(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": testing_data["recommender1"]}
-    response = await async_client.post(URL_PREFIX + "recommender/", json=payload)
+    response = await async_client.post(URL_PREFIX + "recommenders/", json=payload)
 
     assert response.status_code == 409
     assert "already exists" in response.text
@@ -561,7 +561,7 @@ async def test_update_recommender_returns_http_409_for_duplicate_recommender(
     testing_data: dict, async_client: AsyncClient
 ) -> None:
     payload = {"name": testing_data["recommender1"]}
-    response = await async_client.put(URL_PREFIX + "recommender/2", json=payload)
+    response = await async_client.put(URL_PREFIX + "recommenders/2", json=payload)
 
     assert response.status_code == 409
     assert "already exists" in response.text
@@ -591,7 +591,7 @@ async def test_main_returns_http_500_for_internal_server_error(testing_data) -> 
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as client:
-        response = await client.get(URL_PREFIX + "author/1")
+        response = await client.get(URL_PREFIX + "authors/1")
 
         assert response.status_code == 500
         assert "Service is unavailable." in response.text

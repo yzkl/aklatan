@@ -9,7 +9,7 @@ from crud import books
 from database.session import get_db_session
 from schemas import Book, BookCreate, BookUpdate
 
-router = APIRouter(prefix="/book")
+router = APIRouter(prefix="/books")
 
 
 @router.post("/", response_model=Book)

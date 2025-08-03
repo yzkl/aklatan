@@ -6,10 +6,11 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - data:/var/lib/postgresql/data
     networks:
-      - aklatan-network
+      - network
   web:
-    container_name: aklatan-app
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -22,11 +23,10 @@ services:
     depends_on:
       - db
     networks:
-      - aklatan-network
+      - network
     volumes:
       - ./src:/app/src
   tests:
-    container_name: tests
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -37,8 +37,11 @@ services:
       - ./tests:/app/tests
     command: >
       sh -c "while true; do
-        find /app/tests /app/src -type f -name '*.py' | entr -n -d pytest;
+        inotifywait -r -e modify -e create -e delete /app/src /app/tests;
       done"
 
+volumes:
+  data:
+
 networks:
-  aklatan-network:
+  network:

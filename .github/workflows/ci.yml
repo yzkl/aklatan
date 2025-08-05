@@ -20,4 +20,7 @@ jobs:
       run: echo "${{ secrets.DOTENV_FILE }}" > .env
         
     - name: Build the Docker image
-      run: docker compose -f docker-compose.dev.yaml up --build
+      run: docker build -t yzkl/aklatan -f Dockerfile.dev
+
+    - name: Run tests
+      run: docker run -e CI=true yzkl/aklatan pytest

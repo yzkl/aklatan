@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Create .env file from GitHub secret
+      run: echo "${{ secrets.DOTENV_FILE }}" > .env
+        
     - name: Build the Docker image
       run: docker compose -f docker-compose.dev.yaml up --build

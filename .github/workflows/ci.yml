@@ -26,6 +26,9 @@ jobs:
       run: docker run --env-file .env -e CI=true yzkl/aklatan pytest
 
   deploy:
+
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

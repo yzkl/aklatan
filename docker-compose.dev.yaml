@@ -1,5 +1,5 @@
 services:
-  db:
+  test_db:
     image: postgres:15
     restart: always
     ports:
@@ -17,11 +17,11 @@ services:
     ports:
       - "4001:8080"
     environment:
-      DB_HOST: db
+      DB_HOST: test_db
     env_file:
       - .env
     depends_on:
-      - db
+      - test_db
     networks:
       - network
     volumes:

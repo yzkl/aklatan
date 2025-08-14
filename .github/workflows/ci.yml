@@ -24,3 +24,22 @@ jobs:
 
     - name: Run tests
       run: docker run --env-file .env -e CI=true yzkl/aklatan pytest
+
+  deploy:
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          zip -r deploy.zip . -x "*.git*"
+          eb init "$EB_APP_NAME" --region ${{ secrets.AWS_REGION }}
+          eb use "$EB_ENV_NAME"
+          eb deploy
+        env:
+          EB_APP_NAME: aklatan
+          EB_ENV_NAME: Aklatan-env

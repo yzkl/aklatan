@@ -26,10 +26,13 @@ jobs:
       run: docker run --env-file .env -e CI=true yzkl/aklatan pytest
 
   deploy:
-
     runs-on: ubuntu-latest
-    
+    needs: build  # ensures build/tests succeed first
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -37,10 +40,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Install EB CLI
+        run: pip install awsebcli
+
       - name: Deploy to Elastic Beanstalk
         run: |
-          zip -r deploy.zip . -x "*.git*"
-          eb init "$EB_APP_NAME" --region ${{ secrets.AWS_REGION }}
+          zip -r deploy.zip . -x "*.git*" "*.github*" "*__pycache__*"
+          eb init "$EB_APP_NAME" --region ${{ secrets.AWS_REGION }} --platform "Docker"
           eb use "$EB_ENV_NAME"
           eb deploy
         env:

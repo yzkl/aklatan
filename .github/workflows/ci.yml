@@ -19,11 +19,21 @@ jobs:
     - name: Create .env file from GitHub secret
       run: echo "${{ secrets.DOTENV_FILE }}" > .env
         
-    - name: Build the Docker image
-      run: docker build -t yzkl/aklatan -f Dockerfile.dev .
+    - name: Build the test Docker image
+      run: docker build -t yzklalagano/aklatan-test -f Dockerfile.dev .
 
     - name: Run tests
-      run: docker run --env-file .env -e CI=true yzkl/aklatan pytest
+      run: docker run --env-file .env -e CI=true yzklalagano/aklatan-test pytest
+
+  push_to_docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Build the production Docker image
+      run: docker build -t yzklalagano/aklatan -f .
+    
 
   deploy:
     runs-on: ubuntu-latest

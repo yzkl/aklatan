@@ -33,32 +33,38 @@ jobs:
       
     - name: Build the production Docker image
       run: docker build -t yzklalagano/aklatan -f .
+
+    - name: Login to Docker
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_ID }}" --password-stdin
+
+    - name: Push Image to Docker
+      run: docker push yzklalagano/aklatan
     
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build  # ensures build/tests succeed first
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build  # ensures build/tests succeed first
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+  #         aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Install EB CLI
-        run: pip install awsebcli
+  #     - name: Install EB CLI
+  #       run: pip install awsebcli
 
-      - name: Deploy to Elastic Beanstalk
-        run: |
-          zip -r deploy.zip . -x "*.git*" "*.github*" "*__pycache__*"
-          eb init "$EB_APP_NAME" --region ${{ secrets.AWS_REGION }} --platform "Docker"
-          eb use "$EB_ENV_NAME"
-          eb deploy
-        env:
-          EB_APP_NAME: aklatan
-          EB_ENV_NAME: Aklatan-env
+  #     - name: Deploy to Elastic Beanstalk
+  #       run: |
+  #         zip -r deploy.zip . -x "*.git*" "*.github*" "*__pycache__*"
+  #         eb init "$EB_APP_NAME" --region ${{ secrets.AWS_REGION }} --platform "Docker"
+  #         eb use "$EB_ENV_NAME"
+  #         eb deploy
+  #       env:
+  #         EB_APP_NAME: aklatan
+  #         EB_ENV_NAME: Aklatan-env
